@@ -1,1 +1,1 @@
-멘토맨 관리자 페이지 버전관리
+MentorMan AdminPage
