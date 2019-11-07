@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ko" class="fa-events-icons-ready">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <script
+            type="text/javascript"
+            src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <link rel="stylesheet" href="../V1.4/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../V1.4/css/adminMain.css">
+        <link rel="stylesheet" href="../V1.4/css/reset.css">
+        <link rel="stylesheet" href="../V1.4/css/member.css">
+        <script src="https://kit.fontawesome.com/70114e98dc.js" crossorigin="anonymous"></script>
+        <script src="../V1.4/js/bootstrap.min.js"></script>
+        <script src="../V1.4/js/adminMain.js"></script>
+        <title>mentorMan AdminPage</title>
+    </head>
+    <body class="nav-md">
+        <div class="container body">
+            <div class="main_container">
+                <div class="col-md-3 left_col">
+                    <div class="left_col">
+                        <div class="navbar nav_title" style="border: 0;">
+                            <a href="" class="site_title">
+                                <i class="fa fa-paw"></i>
+                                <span>관리자 페이지</span>
+                            </a>
+                        </div>
+                        <div class="clearfix"></div>
+
+                        <!-- menu prile quick info -->
+                        <div class="profile">
+                            <div class="profile_pic">
+                                <img src="../V1.1/image/cookie.jpg" class="img-circle profile_img">
+                            </div>
+                            <div class="profile_info">
+                                <span>안녕하세요!</span>
+                                <h2></h2>
+                            </div>
+                        </div>
+                        <!-- /menu prile quick info -->
+
+                        <br>
+
+                        <!-- sidebar menu -->
+                        <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                            <div class="menu_section">
+                                <h3>관리자님</h3>
+                                <ul class="nav side-menu">
+                                    <li class="">
+                                        <a>
+                                            <i class="fa fa-user"></i>회원관리<span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu" style="display: none;">
+                                            <li>
+                                                <a href="">모든회원 리스트</a>
+                                            </li>
+                                            <li>
+                                                <a href="">멘토 리스트</a>
+                                            </li>
+                                            <li>
+                                                <a href="">멘티 리스트</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="">
+                                        <a>
+                                            <i class="fas fa-clipboard-list"></i>게시판 관리<span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu" style="display: none;">
+                                            <li>
+                                                <a href="">공지사항 게시판</a>
+                                            </li>
+                                            <li>
+                                                <a href="">에세이</a>
+                                            </li>
+                                            <li>
+                                                <a href="">자유게시판</a>
+                                            </li>
+                                            <li>
+                                                <a href="">모임</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                        <div class="sidebar-footer hidden-small"></div>
+                    </div>
+                </div>
+                <!--메뉴 -->
+                <div class="top_nav">
+                    <div class="nav_menu">
+                        <nav class="" role="navigation">
+                            <div class="nav toggle">
+                                <a id="menu_toggle">
+                                    <i class="fa fa-bars"></i>
+                                </a>
+                            </div>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li class="">
+                                    <a href="javascript:;"class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                        <span class=" fa fa-angle-down"></span>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-usermenu pull-right">
+                                        <li>
+                                            <a href="">
+                                                <i class="fa fa-sign-out pull-right"></i>Log Out</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+
+                        </nav>
+                    </div>
+                </div>
+                <!--상단메뉴-->
+                <div class="right_col" role="main" style="min-height: 765px;">
+                    <div class="">
+                        <div class="page-title">
+                            <div class="title_left">
+                                <h3>회원관리</h3>
+                            </div>
+
+                            <div class="title_right"></div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="x_panel" style="height: 600px;">
+                                    <div class="x_title">
+                                        <h2>멘토 리스트</h2>
+                                        <ul class="nav navbar-right panel_toolbox">
+                                            <li>
+                                                <a class="collapse-link">
+                                                    <i class="fa fa-chevron-up"></i>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="close-link">
+                                                    <i class="fa fa-close"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="x_content">
+                                        <div class="table-responsive" style="overflow:hidden;">
+                                            <div class="row">
+                                                    <div class="col-sm-12 memberSearch">
+                                                        <input type="text"  placeholder="찾기">
+                                                        <button type="button" class="btn btn-success btn-sm">찾기</button>
+                                                    </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div>
+                                                        <label>Show 
+                                                            <select>
+                                                                <option value="10">10</option>
+                                                                <option value="20">20</option>
+                                                                <option value="50">50</option>
+                                                                <option value="100">100</option>
+                                                                <option value="-1">All</option>
+                                                            </select> entries
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6"></div>
+                                            </div><!-- 셀렉트박스 row-->
+                                            <div class="row">
+                                                 <div class="col-sm-12">
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th><input type="checkbox"></th>
+                                                                <th scope="col">#</th>
+                                                                <th scope="col">First</th>
+                                                                <th scope="col">Last</th>
+                                                                <th scope="col">Handle</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <th><input type="checkbox"></th>
+                                                                <th scope="row">1</th>
+                                                                <td>Mark</td>
+                                                                <td>Otto</td>
+                                                                <td>@mdo</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th><input type="checkbox"></th>
+                                                                <th scope="row">2</th>
+                                                                <td>Jacob</td>
+                                                                <td>Thornton</td>
+                                                                <td>@fat</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th><input type="checkbox"></th>
+                                                                <th scope="row">3</th>
+                                                                <td>Larry</td>
+                                                                <td>the Bird</td>
+                                                                <td>@twitter</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div> <!-- table row-->
+                                            <div class="row a1">
+                                                <div class="col-sm-5">
+                                                    <div class="dataTables_info a1-left">Showing 0 to 0 of 0 entries</div>
+                                                </div>
+                                                <div class="col-sm-7 searchPage">
+                                                     <nav aria-label="Page navigation example">
+                                                        <ul class="pagination">
+                                                            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                                                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                                                         </ul>
+                                                    </nav>                                                           
+                                                </div>
+                                            </div>
+                                        </div> <!-- table 감싸는 div-->
+                                        <div class="ln_solid"></div>
+                                        <div class="form-group">
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                    <button type="button" class="btn btn-success btn-sm">선택승인</button>
+                                                    <button type="button" class="btn btn-warning btn-sm" >선택미승인</button>
+                                                    <button type="button" class="btn btn-danger btn-sm" ><i class="fa fa-trash-o"></i> 선택삭제</button>
+                                            </div>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                    <div class="pull-right">
+                                                        <button type="button" class="btn btn-success btn-sm" onclick="dataAdd()"><i class="fa fa-plus"></i> 등록</button>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                    </div><!-- xcontent -->
+                                </div><!--x_panel-->
+                            </div>
+                        </div><!-- row -->
+                    </div> <!--clear fix-->
+                </div>
+                <!-- 내용 들어가는곳-->
+                <footer>
+                    <div class="pull-right">
+                        Developed by
+                        <a href="">MenTorMan</a>
+                    </div>
+                    <div class="clearfix"></div>
+                </footer>
+            </div>
+        </div>
+    </body>
+</html>
