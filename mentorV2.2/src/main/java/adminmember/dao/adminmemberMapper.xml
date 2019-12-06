@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="adminmemberSQL">
+ 
+ <!-- 회원들 뽑아오기 -->
+ <select id="getAdminmemberList" parameterType="java.util.Map" resultType="adminmember">
+ 	<![CDATA[select * from
+	(select rownum rn, tt.*from
+	(select 
+			member_seq,
+			member_name,
+			member_nickname,
+			member_email,
+			member_flag,
+			member_profile,
+			to_char(logtime,'YYYY-MM-DD') logtime
+	 from mentors_member
+	 order by logtime desc)tt) 
+	 where rn >= #{startNum} and rn<=#{endNum}]]>
+ </select>
+ 
+ <!-- 회원분류 -->
+ <select id="memberClassfication" parameterType="java.util.Map" resultType="adminmember">
+ 	select * from
+	(select rownum rn, tt.*from
+	(select 
+			member_seq,
+			member_name,
+			member_nickname,
+			member_email,
+			member_flag,
+			member_profile,
+			to_char(logtime,'YYYY-MM-DD') logtime
+	 from mentors_member
+	  <if test="state == 1">
+	 	order by member_flag desc)tt)
+	 </if>
+	 <if test="state == 2">
+	 	order by member_flag)tt)
+	 </if>
+	 <![CDATA[where rn >= #{startNum} and rn<=#{endNum}]]>
+ </select>
+
+ <!-- 총회원 뽑아ㅋ오기 -->
+ <select id="getMemeberTotalA" resultType="Integer">
+		select count(*) cnt from mentors_member
+</select>
+<!-- 회원검색뽑아오기 -->
+<select id="getSearchadminmemberList" parameterType="java.util.Map" resultType="adminmember">
+<![CDATA[select * from
+	(select rownum rn, tt.*from
+	(select 
+			member_seq,
+			member_name,
+			member_nickname,
+			member_email,
+			member_flag,
+			member_profile,
+			to_char(logtime,'YYYY-MM-DD') logtime
+	 from mentors_member
+	 where member_name like '%'||#{adminmemberKeyword}||'%'
+	 order by logtime desc)tt) 
+	 where rn >= #{startNum} and rn<=#{endNum}]]>
+</select>
+<!-- 회원검색 총 멤버 수뽑아오기 -->
+<select id="getSearchmemeberTotalA" parameterType="java.util.Map" resultType="int">
+	select count(*) from mentors_member where member_name like '%'||#{adminmemberKeyword}||'%'
+</select>
+
+ <!-- 멤버삭제 -->
+<delete id="deleteMember" parameterType="java.util.Map">
+	delete mentors_member where member_seq in
+		<foreach collection="check" item="member_seq" index="i" open="(" close=")" separator=",">
+			#{member_seq}<!-- ${check[i]} 컬렉션만 $먹고 item인 seq는 #과$같이먹는다 -->
+		</foreach>
+</delete>
+
+<!-- 멘토뽑아오깅 -->
+ <select id="getAdminmentorList" parameterType="java.util.Map" resultType="adminmentor">
+ 	<![CDATA[select * from
+	(select rownum rn, tt.*from
+	(select 
+			mt.mentor_seq,
+			mm.member_name,
+			mt.mentor_company,
+			mt.mentor_department,
+			j.job_type,
+			mt.mentor_badge,
+			mm.member_profile,
+			to_char(mt.mentor_logtime,'YYYY-MM-DD') mentor_logtime
+	 from mentors_member mm, 
+	 	  mentor mt,
+	 	  job j 
+	 where mm.member_email = mt.mentor_email
+	 and   mt.job_code = j.job_code
+	 and mt.mentor_flag = 1
+	 order by mt.mentor_logtime desc)tt) 
+	 where rn >= #{startNum} and rn<=#{endNum}]]>
+ </select>
+ <!-- 멘토분류 -->
+ <select id="mentorClassfication" parameterType="java.util.Map" resultType="adminmentor">
+ 	select * from
+	(select rownum rn, tt.*from
+	(select 
+			mt.mentor_seq,
+			mm.member_name,
+			mt.mentor_company,
+			mt.mentor_department,
+			j.job_type,
+			mt.mentor_badge,
+			mm.member_profile,
+			to_char(mt.mentor_logtime,'YYYY-MM-DD') mentor_logtime
+	 from mentors_member mm, 
+	 	  mentor mt,
+	 	  job j 
+	 where mm.member_email = mt.mentor_email
+	 and   mt.job_code = j.job_code
+	 and mt.mentor_flag = 1
+	 <if test="state == 1">
+	 	order by mt.mentor_badge desc)tt)
+	 </if>
+	 <if test="state == 2">
+	 	order by mt.mentor_badge)tt)
+	 </if>
+	<![CDATA[ where rn >= #{startNum} and rn<=#{endNum}]]>
+ </select>
+ 
+ <!-- 총멘토 -->
+ <select id="getMentorTotalA" resultType="Integer">
+		select count(*) cnt from mentor where mentor_flag = 1
+</select>
+
+<!-- 멘토검색뽑아오기 -->
+<select id="getSearchadminmentorList" parameterType="java.util.Map" resultType="adminmentor">
+	<![CDATA[select * from
+	(select rownum rn, tt.*from
+	(select 
+			mt.mentor_seq,
+			mm.member_name,
+			mt.mentor_company,
+			mt.mentor_department,
+			j.job_type,
+			mt.mentor_badge,
+			mm.member_profile,
+			to_char(mt.mentor_logtime,'YYYY-MM-DD') mentor_logtime
+	 from mentors_member mm, 
+	 	  mentor mt,
+	 	  job j 
+	 where mm.member_email = mt.mentor_email
+	 and   mt.job_code = j.job_code
+	 and mt.mentor_flag = 1
+	 and mm.member_name like '%'||#{adminmentorKeyword}||'%'
+	 order by mt.mentor_logtime desc)tt) 
+	 where rn >= #{startNum} and rn<=#{endNum}]]>	 
+</select>
+<!-- 멘토검색 총 멤버 수뽑아오기 -->
+<select id="getSearchmentorTotalA" parameterType="java.util.Map" resultType="int">
+	select count(*) 
+	from mentor mt,
+		 mentors_member mm
+	where mm.member_email = mt.mentor_email
+	and mt.mentor_flag = 1
+	and mm.member_name like '%'||#{adminmentorKeyword}||'%'
+</select>
+
+<!-- 멘토신청 뽑아오깅 -->
+ <select id="getAdminmentorApplyList" parameterType="java.util.Map" resultType="adminmentor">
+ 	select * from
+	(select rownum rn, tt.*from
+	(select 
+			mm.member_seq,
+			mt.mentor_seq,
+			mm.member_name,
+			mt.mentor_company,
+			mt.mentor_department,
+			j.job_type,
+			mt.mentor_flag,
+			mm.member_profile,
+			to_char(mt.mentor_logtime,'YYYY-MM-DD') mentor_logtime
+	 from mentors_member mm, 
+	 	  mentor mt,
+	 	  job j 
+	 where mm.member_email = mt.mentor_email
+	 and   mt.job_code = j.job_code
+	 and mt.mentor_flag = 0
+	 order by mt.mentor_logtime desc)tt) 
+	 <![CDATA[
+	 where rn >= #{startNum} and rn<=#{endNum}]]>
+ </select>
+ 
+ <!-- 총멘토신청 뽑아오깅-->
+ <select id="getMentorApplyTotalA" resultType="Integer">
+		select count(*) cnt from mentor where mentor_flag = 0
+</select>
+
+<!-- 멘토신청검색 뽑아오깅 -->
+ <select id="getSearchadminmentorApplyList" parameterType="java.util.Map" resultType="adminmentor">
+ 	select * from
+	(select rownum rn, tt.*from
+	(select 
+			mt.mentor_seq,
+			mm.member_name,
+			mt.mentor_company,
+			mt.mentor_department,
+			j.job_type,
+			mt.mentor_flag,
+			mm.member_profile,
+			to_char(mt.mentor_logtime,'YYYY-MM-DD') mentor_logtime
+	 from mentors_member mm, 
+	 	  mentor mt,
+	 	  job j 
+	 where mm.member_email = mt.mentor_email
+	 and   mt.job_code = j.job_code
+	 and   mt.mentor_flag = 0
+	 and   mm.member_name like '%'||#{adminmentorApplyKeyword}||'%'
+	 order by mt.mentor_logtime desc)tt) 
+	 <![CDATA[where rn >= #{startNum} and rn<=#{endNum}]]>
+ </select>
+ 
+ <!-- 총멘토신청검색 뽑아오깅-->
+ <select id="getSearchmentorApplyTotalA" resultType="Integer">
+		select count(*) 
+	from mentor mt,
+		 mentors_member mm
+	where mm.member_email = mt.mentor_email
+	and   mt.mentor_flag = 0
+	and   mm.member_name like '%'||#{adminmentorApplyKeyword}||'%'
+</select>
+
+<!-- 멘토신청 뷰-->
+ <select id="adminmentorView" parameterType="int" resultType="adminmentor">
+	select mm.member_profile, mt.mentor_career, 
+       mt.mentor_info, mt.mentor_businesscard,
+       mm.member_name,mt.mentor_company,mt.mentor_email,mt.mentor_seq
+	from mentor mt,
+     mentors_member mm
+	where mt.mentor_email = mm.member_email
+	and mt.mentor_seq = #{mentor_seq}
+ </select>
+
+ <!-- 멘토승인 거절 -->
+<delete id="adminmentorReject" parameterType="java.util.Map">
+	delete mentor where mentor_seq in
+		<foreach collection="check" item="mentor_seq" index="i" open="(" close=")" separator=",">
+			#{mentor_seq}<!-- ${check[i]} 컬렉션만 $먹고 item인 seq는 #과$같이먹는다 -->
+		</foreach>
+</delete>
+<!-- 멘토 승인 -->
+<update id="adminmentorSuccess" parameterType="java.util.Map">
+	update mentor set mentor_flag = 1  where mentor_seq in 
+		(select mt.mentor_seq as mentor_seq
+      	from mentors_member mm,
+           	 mentor mt
+      	where mm.member_email = mt.mentor_email
+      	and mm.member_seq in 
+		<foreach collection="check" item="member_seq" index="i" open="(" close=")" separator=",">
+			#{member_seq}<!-- ${check[i]} 컬렉션만 $먹고 item인 seq는 #과$같이먹는다 -->
+		</foreach>
+		)
+</update>
+<update id="adminflagMentor" parameterType="java.util.Map">
+	update mentors_member set member_flag = 1 where member_seq in
+		<foreach collection="check" item="member_seq" index="i" open="(" close=")" separator=",">
+			#{member_seq}    <!-- ${check[i]}  컬렉션만 $먹고 item인 seq는 #과$같이먹는다 -->
+		</foreach>
+</update>
+<!-- 명예멘토 -->
+<!-- 매출뽑아오기 -->
+<select id="getMentorSales" resultType="adminmember.bean.AdminmentorSalesListDTO">
+select  sum(tt.sales) sales,
+       tt.member_name,
+       tt.member_profile,
+       tt.mentor_badge
+from
+(select mo.meetingboard_seq meetingboard_seq,
+      mb.meetingboard_price sales,
+       mm.member_name member_name,
+       mm.member_profile member_profile,
+       mt.mentor_badge mentor_badge
+from meeting_order mo,
+     meetingboard mb,
+     mentor mt,
+     mentors_member mm
+where order_flag = 1
+and   mo.meetingboard_seq = mb.meetingboard_seq
+and   mb.mentor_email = mt.mentor_email
+and   mb.mentor_email = mm.member_email)tt
+group by  (tt.member_name,tt.member_profile,tt.mentor_badge)
+order by sales desc
+</select>
+
+<!-- 멘토 게시판 뽑아오기 -->
+<select id="getMentorBoard"  resultType="adminmember.bean.AdminmentorBoardListDTO">
+select mm.member_name,count(mm.member_name) cnt from
+meetingboard mb,
+mentor mt,
+mentors_member mm
+where mb.mentor_email = mt.mentor_email
+and mt.mentor_email = mm.member_email
+group by mm.member_name
+order by mm.member_name
+</select>
+
+<!-- 명예멘토승인 -->
+<update id="honorMentor" parameterType="java.util.Map">
+	update mentor set mentor_badge = 1  where mentor_seq in
+		<foreach collection="check" item="mentor_seq" index="i" open="(" close=")" separator=",">
+			#{mentor_seq}<!-- ${check[i]} 컬렉션만 $먹고 item인 seq는 #과$같이먹는다 -->
+		</foreach>
+</update>
+
+<!-- 멘티뽑아오깅 -->
+ <select id="getAdminmenteeList" parameterType="java.util.Map" resultType="adminmember">
+ 	<![CDATA[select * from
+	(select rownum rn, tt.*from
+	(select 
+			member_name,
+			member_nickname,
+			member_email,
+			member_flag,
+			member_profile,
+			to_char(logtime,'YYYY-MM-DD') logtime
+	 from mentors_member
+	 where member_flag= 2
+	 order by logtime desc)tt) 
+	 where rn >= #{startNum} and rn<=#{endNum}]]>
+ </select>
+
+ <!-- 총멘티 -->
+ <select id="getMenteeTotalA" resultType="Integer">
+		select count(*) cnt from mentors_member where member_flag= 2
+</select>
+
+<!-- 멘티검색뽑아오기 -->
+<select id="getSearchadminmenteeList" parameterType="java.util.Map" resultType="adminmember">
+<![CDATA[select * from
+	(select rownum rn, tt.*from
+	(select 
+			member_name,
+			member_nickname,
+			member_email,
+			member_flag,
+			member_profile,
+			to_char(logtime,'YYYY-MM-DD') logtime
+	 from mentors_member
+	 where member_flag= 2 
+	 and member_name like '%'||#{adminmenteeKeyword}||'%'
+	 order by logtime desc)tt) 
+	 where rn >= #{startNum} and rn<=#{endNum}]]>
+</select>
+<!-- 멘티검색 총 멤버 수뽑아오기 -->
+<select id="getSearchmenteeTotalA" parameterType="java.util.Map" resultType="int">
+select count(*) from mentors_member 
+where  member_flag= 2
+and	   member_name like '%'||#{adminmenteeKeyword}||'%'
+</select>
+</mapper>
