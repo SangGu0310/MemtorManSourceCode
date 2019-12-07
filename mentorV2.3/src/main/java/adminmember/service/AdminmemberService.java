@@ -1,0 +1,75 @@
+package adminmember.service;
+
+import java.util.List;
+import java.util.Map;
+
+import adminmember.bean.AdminmemberDTO;
+import adminmember.bean.AdminmentorBoardListDTO;
+import adminmember.bean.AdminmentorDTO;
+import adminmember.bean.AdminmentorSalesListDTO;
+
+public interface AdminmemberService {
+	//회원리스트
+	public List<AdminmemberDTO> getAdminmemberList(Map<String, Integer> map);
+
+	public List<AdminmemberDTO> memberClassfication(Map<String, Integer> map);
+
+	public int getMemeberTotalA();
+
+	public List<AdminmemberDTO> getSearchadminmemberList(Map<String, Object> map);
+
+	public int getSearchmemeberTotalA(Map<String, Object> map);
+
+	public void deleteMember(Map<String, String[]> map);
+
+	//멘토리스트
+	public List<AdminmentorDTO> getAdminmentorList(Map<String, Integer> map);
+
+	public List<AdminmentorDTO> getSearchadminmentorList(Map<String, Object> map);
+
+	public int getSearchmentorTotalA(Map<String, Object> map);
+
+	public int getMentorTotalA();
+	//멘토신청리스트
+	public List<AdminmentorDTO> getAdminmentorApplyList(int startNum, int endNum);
+
+	public int getMentorApplyTotalA();
+
+	public AdminmentorDTO adminmentorView(int mentor_seq);
+
+	public void adminmentorSuccess(Map<String, String[]> map);
+	
+	public void adminflagMentor(Map<String, String[]> map);
+
+	public void adminmentorReject(Map<String, String[]> map);
+
+	public List<AdminmentorDTO> mentorClassfication(Map<String, Integer> map);
+
+	//멘티리스트
+	public List<AdminmemberDTO> getAdminmenteeList(int startNum, int endNum);
+
+	public int getMenteeTotalA();
+
+	public List<AdminmemberDTO> getSearchadminmenteeList(Map<String, Object> map);
+
+	public int getSearchmenteeTotalA(Map<String, Object> map);
+
+	public List<AdminmentorDTO> getSearchadminmentorApplyList(Map<String, Object> map);
+
+	public int getSearchmentorApplyTotalA(Map<String, Object> map);
+
+	public List<AdminmentorSalesListDTO> getMentorSales(Map<String, Integer> map);
+
+	public List<AdminmentorBoardListDTO> getMentorBoard(Map<String, Integer> map);
+
+	public void honorMentor(Map<String, String[]> map);
+
+	public void setMentorUpdateAlarm(int check);
+
+	public void setMenteeUpdateAlarm(int check);
+
+	public int getmentorSalesTotalA();
+
+	public void setHonormentorUpdateAlarm(int check);
+
+}
